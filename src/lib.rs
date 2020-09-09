@@ -7,4 +7,5 @@ mod io;
 mod is_prime;
 mod joins;
 mod math;
+mod string_utils;
 mod yes_no;
