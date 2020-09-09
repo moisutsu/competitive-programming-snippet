@@ -4,4 +4,4 @@ link:
 	cargo snippet -t vscode >| ~/Library/Application\ Support/Code/User/snippets/rust.json
 
 cat:
-	bat ~/Library/Application\ Support/Code/User/snippets/rust.json
+	cat ~/Library/Application\ Support/Code/User/snippets/rust.json
