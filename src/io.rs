@@ -2,9 +2,13 @@ use cargo_snippet::snippet;
 
 #[snippet("@echo")]
 macro_rules! echo {
-    ($x:expr) => {
-        println!("{}", $x);
-    };
+    ($($e:expr),*) => {
+        let mut s = Vec::new();
+        $(
+            s.push(format!("{}" , $e));
+        )*
+        println!("{}" , s.join(" "));
+    }
 }
 
 #[snippet("@input")]
