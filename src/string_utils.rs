@@ -1,12 +1,12 @@
 use cargo_snippet::snippet;
 
 #[snippet("@string_to_vec_char")]
-trait StringToVecChar {
+trait StrToVecChar {
     fn to_vec_char(&self) -> Vec<char>;
 }
 
 #[snippet("@string_to_vec_char")]
-impl StringToVecChar for str {
+impl StrToVecChar for str {
     fn to_vec_char(&self) -> Vec<char> {
         self.chars().collect::<Vec<char>>()
     }
