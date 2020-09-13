@@ -6,7 +6,7 @@ trait StringToVecChar {
 }
 
 #[snippet("@string_to_vec_char")]
-impl StringToVecChar for String {
+impl StringToVecChar for str {
     fn to_vec_char(&self) -> Vec<char> {
         self.chars().collect::<Vec<char>>()
     }
@@ -19,8 +19,5 @@ fn test_string_to_vec_char() {
         "Hello".to_string().to_vec_char(),
         vec!['H', 'e', 'l', 'l', 'o']
     );
-    assert_eq!(
-        "a b c".to_string().to_vec_char(),
-        vec!['a', ' ', 'b', ' ', 'c']
-    );
+    assert_eq!("a b c".to_vec_char(), vec!['a', ' ', 'b', ' ', 'c']);
 }
