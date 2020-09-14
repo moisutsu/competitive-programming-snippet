@@ -1,6 +1,6 @@
 use cargo_snippet::snippet;
 
-#[snippet("@joins")]
+#[snippet("@range")]
 macro_rules! range {
     ($stop:expr) => {
         0..$stop
