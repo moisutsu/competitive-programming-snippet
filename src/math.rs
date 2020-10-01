@@ -27,7 +27,7 @@ where
 
 #[snippet(name = "@factorial")]
 fn factorial(n: usize) -> usize {
-    (1..=n).fold(1, |sigma, i| sigma * i)
+    (1..=n).product()
 }
 
 #[test]
