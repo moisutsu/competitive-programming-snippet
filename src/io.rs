@@ -73,3 +73,11 @@ macro_rules! flush {
         stdout().flush().unwrap();
     };
 }
+
+#[snippet(name = "@debug")]
+macro_rules! debug {
+    ($($a:expr),* $(,)*) => {
+        #[cfg(debug_assertions)]
+        eprintln!(concat!($("| ", stringify!($a), "={:?} "),*, "|"), $(&$a),*);
+    };
+}
