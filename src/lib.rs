@@ -3,6 +3,7 @@
 #![allow(non_snake_case)]
 
 mod binary_search;
+mod cmp;
 mod io;
 mod is_prime;
 mod joins;
