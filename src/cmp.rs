@@ -1,6 +1,6 @@
 use cargo_snippet::snippet;
 
-#[snippet("@chmin")]
+#[snippet(name = "@chmin", include = "@min")]
 macro_rules! chmin {
     ($base:expr, $($cmps:expr),+ $(,)*) => {{
         let cmp_min = min!($($cmps),+);
@@ -13,7 +13,7 @@ macro_rules! chmin {
     }};
 }
 
-#[snippet("@chmax")]
+#[snippet(name = "@chmax", include = "@max")]
 macro_rules! chmax {
     ($base:expr, $($cmps:expr),+ $(,)*) => {{
         let cmp_max = max!($($cmps),+);
