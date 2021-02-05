@@ -15,11 +15,14 @@ where
         + PartialOrd
         + Copy,
 {
+    let zero = x - x;
+    if x == zero {
+        return false;
+    }
     let one = x / x;
     if x == one {
         return false;
     }
-    let zero = x - x;
     let mut i = one + one;
     while i * i <= x {
         if x % i == zero {
@@ -52,6 +55,7 @@ fn eratosthenes(upper_limit: usize) -> Vec<usize> {
 
 #[test]
 fn test_is_prime() {
+    assert_eq!(is_prime(0), false);
     assert_eq!(is_prime(1), false);
     assert_eq!(is_prime(2usize), true);
     assert_eq!(is_prime(4f64), false);
