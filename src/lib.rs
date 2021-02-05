@@ -10,4 +10,5 @@ mod math;
 mod prime_number;
 mod range;
 mod string_utils;
+mod vec_utils;
 mod yes_no;
