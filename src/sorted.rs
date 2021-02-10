@@ -7,6 +7,7 @@ trait Sorted {
     fn sorted_by_key<F: FnMut(&Self::Element) -> K, K: Ord>(&self, f: F) -> Vec<Self::Element>;
 }
 
+#[snippet("@sorted")]
 impl<T> Sorted for [T]
 where
     T: Clone + Ord,
