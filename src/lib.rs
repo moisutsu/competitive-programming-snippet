@@ -9,6 +9,7 @@ mod joins;
 mod math;
 mod prime_number;
 mod range;
+mod sorted;
 mod string_utils;
 mod vec_utils;
 mod yes_no;
