@@ -11,5 +11,6 @@ mod prime_number;
 mod range;
 mod sorted;
 mod string_utils;
+mod union_find;
 mod vec_utils;
 mod yes_no;
