@@ -4,6 +4,7 @@ use cargo_snippet::snippet;
 struct UnionFind {
     parents: Vec<Option<usize>>,
     sizes: Vec<usize>,
+    groups_count: usize,
 }
 
 #[snippet("@union_find")]
@@ -12,6 +13,7 @@ impl UnionFind {
         UnionFind {
             parents: vec![None; n],
             sizes: vec![1; n],
+            groups_count: n,
         }
     }
 
@@ -39,20 +41,32 @@ impl UnionFind {
             self.parents[root_x] = Some(root_y);
             self.sizes[root_y] += self.sizes[root_x];
         }
+        self.groups_count -= 1;
         true
     }
 
     fn is_same(&mut self, x: usize, y: usize) -> bool {
         self.find(x) == self.find(y)
     }
+
+    fn groups_count(&self) -> usize {
+        self.groups_count
+    }
 }
 
 #[test]
 fn union_find() {
     let mut uf = UnionFind::new(5);
+    assert_eq!(uf.groups_count(), 5);
+
     uf.union(0, 1);
+    assert_eq!(uf.groups_count(), 4);
+
     uf.union(2, 3);
+    assert_eq!(uf.groups_count(), 3);
+
     uf.union(0, 4);
+    assert_eq!(uf.groups_count(), 2);
 
     assert!(uf.is_same(0, 1));
     assert!(uf.is_same(2, 3));
