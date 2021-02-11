@@ -1,7 +1,7 @@
 use cargo_snippet::snippet;
 
 #[snippet("@union_find")]
-struct UnionFind {
+pub struct UnionFind {
     parents: Vec<Option<usize>>,
     sizes: Vec<usize>,
     groups_count: usize,
@@ -9,7 +9,7 @@ struct UnionFind {
 
 #[snippet("@union_find")]
 impl UnionFind {
-    fn new(n: usize) -> Self {
+    pub fn new(n: usize) -> Self {
         UnionFind {
             parents: vec![None; n],
             sizes: vec![1; n],
@@ -17,7 +17,7 @@ impl UnionFind {
         }
     }
 
-    fn find(&mut self, x: usize) -> usize {
+    pub fn find(&mut self, x: usize) -> usize {
         if let Some(parent) = self.parents[x] {
             let root_x = self.find(parent);
             self.parents[x] = Some(root_x);
@@ -27,7 +27,7 @@ impl UnionFind {
         }
     }
 
-    fn union(&mut self, x: usize, y: usize) -> bool {
+    pub fn union(&mut self, x: usize, y: usize) -> bool {
         let (root_x, root_y) = (self.find(x), self.find(y));
 
         if root_x == root_y {
@@ -45,15 +45,15 @@ impl UnionFind {
         true
     }
 
-    fn is_same(&mut self, x: usize, y: usize) -> bool {
+    pub fn is_same(&mut self, x: usize, y: usize) -> bool {
         self.find(x) == self.find(y)
     }
 
-    fn groups_count(&self) -> usize {
+    pub fn groups_count(&self) -> usize {
         self.groups_count
     }
 
-    fn size(&mut self, x: usize) -> usize {
+    pub fn size(&mut self, x: usize) -> usize {
         let root_x = self.find(x);
         self.sizes[root_x]
     }
