@@ -2,7 +2,7 @@ use cargo_snippet::snippet;
 
 #[snippet("@union_find")]
 pub struct UnionFind {
-    parents: Vec<Option<usize>>,
+    parents: Vec<usize>,
     sizes: Vec<usize>,
     groups_count: usize,
 }
@@ -11,19 +11,20 @@ pub struct UnionFind {
 impl UnionFind {
     pub fn new(n: usize) -> Self {
         UnionFind {
-            parents: vec![None; n],
+            parents: (0..n).collect(),
             sizes: vec![1; n],
             groups_count: n,
         }
     }
 
     pub fn find(&mut self, x: usize) -> usize {
-        if let Some(parent) = self.parents[x] {
-            let root_x = self.find(parent);
-            self.parents[x] = Some(root_x);
-            root_x
-        } else {
+        let parent_x = self.parents[x];
+        if parent_x == x {
             x
+        } else {
+            let root_x = self.find(parent_x);
+            self.parents[x] = root_x;
+            root_x
         }
     }
 
@@ -35,10 +36,10 @@ impl UnionFind {
         }
 
         if self.sizes[root_x] >= self.sizes[root_y] {
-            self.parents[root_y] = Some(root_x);
+            self.parents[root_y] = root_x;
             self.sizes[root_x] += self.sizes[root_y];
         } else {
-            self.parents[root_x] = Some(root_y);
+            self.parents[root_x] = root_y;
             self.sizes[root_y] += self.sizes[root_x];
         }
         self.groups_count -= 1;
