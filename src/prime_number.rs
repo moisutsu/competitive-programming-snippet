@@ -33,6 +33,7 @@ where
     true
 }
 
+#[snippet("@eratosthenes")]
 fn eratosthenes(upper_limit: usize) -> Vec<usize> {
     if upper_limit == 0 {
         return vec![];
