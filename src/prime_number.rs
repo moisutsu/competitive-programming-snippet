@@ -54,6 +54,33 @@ fn eratosthenes(upper_limit: usize) -> Vec<usize> {
     primes
 }
 
+#[snippet("@prime_factorization")]
+fn prime_factorization(n: u128) -> std::collections::HashMap<u128, u128> {
+    let mut map = std::collections::HashMap::new();
+    let mut n = n;
+    if n == 1 {
+        map.insert(n, 1);
+        return map;
+    }
+    while n % 2 == 0 {
+        n /= 2;
+        *map.entry(2).or_insert(0) += 1;
+    }
+    let mut x = 3;
+    while x * x <= n {
+        if n % x == 0 {
+            *map.entry(x).or_insert(0) += 1;
+            n /= x;
+        } else {
+            x += 2;
+        }
+    }
+    if n > 1 {
+        *map.entry(n).or_insert(0) += 1;
+    }
+    map
+}
+
 #[test]
 fn test_is_prime() {
     assert_eq!(is_prime(0), false);
@@ -74,5 +101,55 @@ fn test_eratosthenes() {
     assert_eq!(
         eratosthenes(50),
         vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+    );
+}
+
+#[test]
+fn test_prime_factorization() {
+    use maplit::hashmap;
+    assert_eq!(
+        prime_factorization(1),
+        hashmap! {
+            1 => 1,
+        }
+    );
+    assert_eq!(
+        prime_factorization(2u128),
+        hashmap! {
+            2u128 => 1,
+        }
+    );
+    assert_eq!(
+        prime_factorization(20),
+        hashmap! {
+            2 => 2,
+            5 => 1,
+        }
+    );
+    assert_eq!(
+        prime_factorization(97),
+        hashmap! {
+            97 => 1,
+        }
+    );
+    assert_eq!(
+        prime_factorization(121),
+        hashmap! {
+            11 => 2,
+        }
+    );
+    assert_eq!(
+        prime_factorization(121),
+        hashmap! {
+            11 => 2,
+        }
+    );
+    assert_eq!(
+        prime_factorization(3672),
+        hashmap! {
+            2 => 3,
+            3 => 3,
+            17 => 1,
+        }
     );
 }
