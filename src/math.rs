@@ -30,6 +30,24 @@ fn factorial(n: usize) -> usize {
     (1..=n).product()
 }
 
+#[snippet("divisors")]
+fn divisors(n: u128) -> Vec<u128> {
+    let mut small_divisors = vec![];
+    let mut big_divisors = vec![];
+    let mut x = 1;
+    while x * x <= n {
+        if n % x == 0 {
+            small_divisors.push(x);
+            if x != n / x {
+                big_divisors.push(n / x);
+            }
+        }
+        x += 1;
+    }
+    small_divisors.extend(big_divisors.into_iter().rev().collect::<Vec<u128>>());
+    small_divisors
+}
+
 #[test]
 fn test_gcd() {
     assert_eq!(gcd(5i128, 5i128), 5i128);
@@ -51,4 +69,14 @@ fn test_factorial() {
     assert_eq!(factorial(1), 1);
     assert_eq!(factorial(4), 24);
     assert_eq!(factorial(6), 720);
+}
+
+#[test]
+fn test_divisors() {
+    assert_eq!(divisors(1), vec![1]);
+    assert_eq!(divisors(2), vec![1, 2]);
+    assert_eq!(divisors(10), vec![1, 2, 5, 10]);
+    assert_eq!(divisors(30), vec![1, 2, 3, 5, 6, 10, 15, 30]);
+    assert_eq!(divisors(97), vec![1, 97]);
+    assert_eq!(divisors(121), vec![1, 11, 121]);
 }
