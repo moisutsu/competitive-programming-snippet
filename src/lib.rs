@@ -4,6 +4,7 @@
 
 mod binary_search;
 mod cmp;
+mod consts;
 mod io;
 mod joins;
 mod math;
