@@ -2,6 +2,7 @@
 #![allow(unused_macros)]
 #![allow(non_snake_case)]
 
+mod accumulate;
 mod binary_search;
 mod cmp;
 mod consts;
