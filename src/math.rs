@@ -65,6 +65,29 @@ macro_rules! mod_pow {
     }};
 }
 
+#[snippet("@mod_inv")]
+macro_rules! mod_inv {
+    ($a:expr, $mod:expr) => {{
+        let (mut a, mut b, mut u, mut v) = ($a, $mod, 1, 0);
+        while b != 0 {
+            let t = a / b;
+            a -= t * b;
+            u -= t * v;
+            let tmp = b;
+            b = a;
+            a = tmp;
+            let tmp = v;
+            v = u;
+            u = tmp;
+        }
+        u %= $mod;
+        if u < 0 {
+            u += $mod;
+        }
+        u
+    }};
+}
+
 #[test]
 fn test_gcd() {
     assert_eq!(gcd(5i128, 5i128), 5i128);
@@ -103,4 +126,13 @@ fn test_mod_pow() {
     assert_eq!(mod_pow!(3, 45, 1000000007), 644897553i64);
     assert_eq!(mod_pow!(5, 50, 1000000007), 876125953i128);
     assert_eq!(mod_pow!(8, 100, 1000000007), 322050759usize);
+}
+
+#[test]
+fn test_mod_inv() {
+    const MOD: i64 = 1000000007;
+    let mut a = 12345678900000;
+    let b = 100000;
+    a %= MOD;
+    assert_eq!(a * mod_inv!(b, MOD) % MOD, 123456789);
 }
