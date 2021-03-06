@@ -48,6 +48,23 @@ fn divisors(n: u128) -> Vec<u128> {
     small_divisors
 }
 
+#[snippet("@mod_pow")]
+macro_rules! mod_pow {
+    ($a:expr, $n:expr, $mod:expr) => {{
+        let mut ret = 1;
+        let mut a = $a;
+        let mut n = $n;
+        while n > 0 {
+            if n & 1 == 1 {
+                ret = ret * a % $mod;
+            }
+            a = a * a % $mod;
+            n >>= 1;
+        }
+        ret
+    }};
+}
+
 #[test]
 fn test_gcd() {
     assert_eq!(gcd(5i128, 5i128), 5i128);
@@ -79,4 +96,11 @@ fn test_divisors() {
     assert_eq!(divisors(30), vec![1, 2, 3, 5, 6, 10, 15, 30]);
     assert_eq!(divisors(97), vec![1, 97]);
     assert_eq!(divisors(121), vec![1, 11, 121]);
+}
+
+#[test]
+fn test_mod_pow() {
+    assert_eq!(mod_pow!(3, 45, 1000000007), 644897553i64);
+    assert_eq!(mod_pow!(5, 50, 1000000007), 876125953i128);
+    assert_eq!(mod_pow!(8, 100, 1000000007), 322050759usize);
 }
