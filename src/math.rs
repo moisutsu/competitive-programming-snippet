@@ -30,7 +30,7 @@ fn factorial(n: usize) -> usize {
     (1..=n).product()
 }
 
-#[snippet("divisors")]
+#[snippet("@divisors")]
 fn divisors(n: u128) -> Vec<u128> {
     let mut small_divisors = vec![];
     let mut big_divisors = vec![];
