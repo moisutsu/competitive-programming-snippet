@@ -88,6 +88,35 @@ macro_rules! mod_inv {
     }};
 }
 
+#[snippet("@mod_comb")]
+struct ModComb {
+    fac: Vec<usize>,
+    finv: Vec<usize>,
+    modulo: usize,
+}
+
+#[snippet("@mod_comb")]
+impl ModComb {
+    fn new(n: usize, modulo: usize) -> Self {
+        let mut fac = vec![1; n + 1];
+        let mut finv = vec![1; n + 1];
+        let mut inv = vec![1; n + 1];
+        for i in 2..=n {
+            fac[i] = fac[i - 1] * i % modulo;
+            inv[i] = modulo - inv[modulo % i] * (modulo / i) % modulo;
+            finv[i] = finv[i - 1] * inv[i] % modulo;
+        }
+        ModComb { fac, finv, modulo }
+    }
+
+    fn comb(&self, n: usize, k: usize) -> usize {
+        if n < k {
+            return 0;
+        }
+        self.fac[n] * (self.finv[k] * self.finv[n - k] % self.modulo) % self.modulo
+    }
+}
+
 #[snippet("@to_base")]
 trait ToBase<T> {
     fn to_base(self, base: T) -> T;
