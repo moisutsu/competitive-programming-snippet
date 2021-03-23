@@ -5,10 +5,10 @@ use std::ops::*;
 #[snippet(name = "@gcd", prefix = "use std::ops::*;")]
 fn gcd<T>(a: T, b: T) -> T
 where
-    T: Copy + Ord + Sub<Output = T> + Rem<Output = T>,
+    T: Copy + Default + Ord + Sub<Output = T> + Rem<Output = T>,
 {
     let (mut a, mut b) = if a < b { (b, a) } else { (a, b) };
-    let zero = a - a;
+    let zero = T::default();
     while b > zero {
         let r = a % b;
         a = b;
@@ -20,7 +20,7 @@ where
 #[snippet(name = "@lcm", include = "@gcd")]
 fn lcm<T>(a: T, b: T) -> T
 where
-    T: Copy + Ord + Sub<Output = T> + Rem<Output = T> + Mul<Output = T> + Div<Output = T>,
+    T: Copy + Default + Ord + Sub<Output = T> + Rem<Output = T> + Mul<Output = T> + Div<Output = T>,
 {
     a * b / gcd(a, b)
 }
@@ -73,12 +73,8 @@ macro_rules! mod_inv {
             let t = a / b;
             a -= t * b;
             u -= t * v;
-            let tmp = b;
-            b = a;
-            a = tmp;
-            let tmp = v;
-            v = u;
-            u = tmp;
+            b = std::mem::replace(&mut a, b);
+            v = std::mem::replace(&mut u, v);
         }
         u %= $mod;
         if u < 0 {
@@ -119,13 +115,14 @@ impl ModComb {
 
 #[snippet("@to_base")]
 trait ToBase<T> {
-    fn to_base(self, base: T) -> T;
+    fn to_base(&self, base: T) -> T;
 }
 
 #[snippet("@to_base")]
 impl<T> ToBase<T> for T
 where
     T: Copy
+        + Default
         + std::ops::Add<Output = T>
         + std::ops::Sub<Output = T>
         + std::ops::Mul<Output = T>
@@ -133,12 +130,12 @@ where
         + std::ops::Rem<Output = T>
         + std::cmp::PartialOrd,
 {
-    fn to_base(self, base: T) -> T {
-        let zero = base - base;
+    fn to_base(&self, base: T) -> T {
+        let zero = T::default();
         let one = base / base;
         let ten = (one + one + one) * (one + one + one) + one;
 
-        let mut n = self;
+        let mut n = *self;
         let mut ret = zero;
         let mut digit = one;
 
