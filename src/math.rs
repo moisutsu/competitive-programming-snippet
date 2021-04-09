@@ -26,8 +26,18 @@ where
 }
 
 #[snippet(name = "@factorial")]
-fn factorial(n: usize) -> usize {
+fn factorial(n: i64) -> i64 {
     (1..=n).product()
+}
+
+#[snippet(name = "@combination", include = "@factorial")]
+fn combination(n: i64, r: i64) -> i64 {
+    factorial(n) / factorial(r) / factorial(n - r)
+}
+
+#[snippet(name = "@permutation", include = "@factorial")]
+fn permutation(n: i64, r: i64) -> i64 {
+    factorial(n) / factorial(n - r)
 }
 
 #[snippet("@divisors")]
@@ -170,6 +180,26 @@ fn test_factorial() {
     assert_eq!(factorial(1), 1);
     assert_eq!(factorial(4), 24);
     assert_eq!(factorial(6), 720);
+}
+
+#[test]
+fn test_combination() {
+    assert_eq!(combination(5, 0), 1);
+    assert_eq!(combination(5, 1), 5);
+    assert_eq!(combination(5, 2), 10);
+    assert_eq!(combination(5, 3), 10);
+    assert_eq!(combination(5, 4), 5);
+    assert_eq!(combination(5, 5), 1);
+}
+
+#[test]
+fn test_permutation() {
+    assert_eq!(permutation(5, 0), 1);
+    assert_eq!(permutation(5, 1), 5);
+    assert_eq!(permutation(5, 2), 20);
+    assert_eq!(permutation(5, 3), 60);
+    assert_eq!(permutation(5, 4), 120);
+    assert_eq!(permutation(5, 5), 120);
 }
 
 #[test]
