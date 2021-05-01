@@ -138,11 +138,12 @@ where
         + std::ops::Mul<Output = T>
         + std::ops::Div<Output = T>
         + std::ops::Rem<Output = T>
-        + std::cmp::PartialOrd,
+        + std::cmp::PartialOrd
+        + std::convert::From<bool>,
 {
     fn to_base(&self, base: T) -> T {
         let zero = T::default();
-        let one = base / base;
+        let one = true.into();
         let ten = (one + one + one) * (one + one + one) + one;
 
         let mut n = *self;

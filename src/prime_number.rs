@@ -5,21 +5,23 @@ use std::ops::*;
 #[snippet("@is_prime", prefix = "use std::ops::*;")]
 fn is_prime<T>(x: T) -> bool
 where
-    T: Add<Output = T>
+    T: Default
+        + Add<Output = T>
         + Sub<Output = T>
         + Mul<Output = T>
         + Div<Output = T>
         + Rem<Output = T>
+        + std::convert::From<bool>
         + AddAssign
         + PartialEq
         + PartialOrd
         + Copy,
 {
-    let zero = x - x;
+    let zero = T::default();
     if x == zero {
         return false;
     }
-    let one = x / x;
+    let one = true.into();
     if x == one {
         return false;
     }
@@ -86,7 +88,6 @@ fn test_is_prime() {
     assert_eq!(is_prime(0), false);
     assert_eq!(is_prime(1), false);
     assert_eq!(is_prime(2usize), true);
-    assert_eq!(is_prime(4f64), false);
     assert_eq!(is_prime(11i128), true);
     assert_eq!(is_prime(97u128), true);
     assert_eq!(is_prime(28107u16), false);

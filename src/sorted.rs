@@ -15,13 +15,13 @@ where
     type Element = T;
 
     fn sorted(&self) -> Vec<Self::Element> {
-        let mut v = self.clone().to_vec();
+        let mut v = <&[T]>::clone(&self).to_vec();
         v.sort();
         v
     }
 
     fn sorted_by_key<F: FnMut(&Self::Element) -> K, K: Ord>(&self, f: F) -> Vec<Self::Element> {
-        let mut v = self.clone().to_vec();
+        let mut v = <&[T]>::clone(&self).to_vec();
         v.sort_by_key(f);
         v
     }
