@@ -30,9 +30,13 @@ fn factorial(n: i64) -> i64 {
     (1..=n).product()
 }
 
-#[snippet(name = "@combination", include = "@factorial")]
+#[snippet(name = "@combination")]
 fn combination(n: i64, r: i64) -> i64 {
-    factorial(n) / factorial(r) / factorial(n - r)
+    let r = if r > n / 2 { n - r } else { r };
+    match (n, r) {
+        (0, _) | (_, 0) => 1,
+        _ => combination(n, r - 1) * (n - r + 1) / r,
+    }
 }
 
 #[snippet(name = "@permutation", include = "@factorial")]
