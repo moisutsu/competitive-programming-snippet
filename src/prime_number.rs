@@ -85,12 +85,12 @@ fn prime_factorization(n: u128) -> std::collections::HashMap<u128, u128> {
 
 #[test]
 fn test_is_prime() {
-    assert_eq!(is_prime(0), false);
-    assert_eq!(is_prime(1), false);
-    assert_eq!(is_prime(2usize), true);
-    assert_eq!(is_prime(11i128), true);
-    assert_eq!(is_prime(97u128), true);
-    assert_eq!(is_prime(28107u16), false);
+    assert!(!is_prime(0));
+    assert!(!is_prime(1));
+    assert!(is_prime(2usize));
+    assert!(is_prime(11i128));
+    assert!(is_prime(97u128));
+    assert!(!is_prime(28107u16));
 }
 
 #[test]
